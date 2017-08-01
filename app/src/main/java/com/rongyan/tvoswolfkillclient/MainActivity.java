@@ -5,23 +5,22 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.rongyan.tvoswolfkillclient.base.BaseActivity;
 import com.rongyan.tvoswolfkillclient.mina.BackService;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 import de.greenrobot.event.Subscribe;
 import de.greenrobot.event.ThreadMode;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
     @BindView(R.id.et_server_ip)
     EditText editText;
     @BindView(R.id.btn_connect)
@@ -46,15 +45,6 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
-        EventBus.getDefault().register(this);
-        intent = new Intent(this, BackService.class);
-
-    }
 
     @Override
     protected void onStart() {
@@ -69,6 +59,17 @@ public class MainActivity extends AppCompatActivity {
         unbindService(connection);
     }
 
+    @Override
+    protected int getContentView() {
+        return R.layout.activity_main;
+    }
+
+    @Override
+    protected void initViews(Bundle savedInstanceState) {
+        EventBus.getDefault().register(this);
+        intent = new Intent(this, BackService.class);
+    }
+
     @OnClick(R.id.btn_connect)
     public void onClick() {
         binder.setServerIp(editText.getText().toString());
@@ -76,7 +77,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Subscribe(threadMode = ThreadMode.MainThread)
-    public void onMessageEvent(Object o) {/* Do something */};
+    public void onMessageEvent(Object o) {/* Do something */}
+
+    ;
 
 //    @Override
 //    public void onClick(View v) {

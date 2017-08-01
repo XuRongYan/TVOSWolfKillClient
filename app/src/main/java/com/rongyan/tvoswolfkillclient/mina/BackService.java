@@ -43,7 +43,7 @@ public class BackService extends Service {
         KeepAliveMessageFactory heartBeatFactory = new KeepAliveMessageFactoryImpl(); //心跳包收发处理
         KeepAliveRequestTimeoutHandler heartBeatTimeoutHandler = new KeepAliveRequestTimeoutHandlerImpl(); //心跳包超时处理
         KeepAliveFilter heartBeatFilter = new KeepAliveFilter(heartBeatFactory, IdleStatus.BOTH_IDLE, heartBeatTimeoutHandler);
-        heartBeatFilter.setForwardEvent(true); //向后传递时间（默认截取空闲事件，这里设置成可以向后传递）
+        heartBeatFilter.setForwardEvent(true); //向后传递事件（默认截取空闲事件，这里设置成可以向后传递）
         heartBeatFilter.setRequestInterval(HEART_BEAT_RATE); //设置心跳包频率
         connector.getFilterChain().addLast("heartbeat", heartBeatFilter);
         connector.setHandler(new ClientHandler());
