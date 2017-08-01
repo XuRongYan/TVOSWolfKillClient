@@ -10,14 +10,13 @@ import com.rongyant.commonlib.util.LogUtils;
 import org.apache.mina.core.future.ConnectFuture;
 import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.filter.codec.ProtocolCodecFilter;
-import org.apache.mina.filter.codec.textline.TextLineCodecFactory;
+import org.apache.mina.filter.codec.serialization.ObjectSerializationCodecFactory;
 import org.apache.mina.filter.keepalive.KeepAliveFilter;
 import org.apache.mina.filter.keepalive.KeepAliveMessageFactory;
 import org.apache.mina.filter.keepalive.KeepAliveRequestTimeoutHandler;
 import org.apache.mina.transport.socket.nio.NioSocketConnector;
 
 import java.net.InetSocketAddress;
-import java.nio.charset.Charset;
 
 public class BackService extends Service {
     private static String SERVER_IP = null;
@@ -39,7 +38,7 @@ public class BackService extends Service {
         connector.getSessionConfig().setReadBufferSize(2048);
         connector.getSessionConfig().setIdleTime(IdleStatus.BOTH_IDLE, IDLE_TIMEOUT);
         connector.getFilterChain().addLast("codec",
-                new ProtocolCodecFilter(new TextLineCodecFactory(Charset.forName("UTF-8"))));
+                new ProtocolCodecFilter(new ObjectSerializationCodecFactory()));
         KeepAliveMessageFactory heartBeatFactory = new KeepAliveMessageFactoryImpl(); //心跳包收发处理
         KeepAliveRequestTimeoutHandler heartBeatTimeoutHandler = new KeepAliveRequestTimeoutHandlerImpl(); //心跳包超时处理
         KeepAliveFilter heartBeatFilter = new KeepAliveFilter(heartBeatFactory, IdleStatus.BOTH_IDLE, heartBeatTimeoutHandler);
@@ -55,7 +54,6 @@ public class BackService extends Service {
         super.onDestroy();
         if (connectFuture != null) {
             connectFuture.getSession().getCloseFuture().awaitUninterruptibly(); //等待连接断开
-
         }
     }
 

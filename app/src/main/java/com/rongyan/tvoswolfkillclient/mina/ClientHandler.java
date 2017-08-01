@@ -1,5 +1,9 @@
 package com.rongyan.tvoswolfkillclient.mina;
 
+import com.rongyan.model.entity.UserEntity;
+import com.rongyan.model.entity.UserEventEntity;
+import com.rongyan.model.enums.UserEventType;
+import com.rongyan.tvoswolfkillclient.R;
 import com.rongyant.commonlib.util.LogUtils;
 
 import org.apache.mina.core.service.IoHandlerAdapter;
@@ -25,6 +29,8 @@ public class ClientHandler extends IoHandlerAdapter {
         super.sessionOpened(session);
         LogUtils.e(TAG, "sessionClosed", "ip:" + session.getRemoteAddress().toString()
                 + " session closed");
+        session.write(new UserEventEntity(new UserEntity(1, "test", R.mipmap.ic_launcher), UserEventType.GET, 1));
+
     }
 
     @Override
