@@ -1,14 +1,15 @@
 package com.rongyan.tvoswolfkillclient.mina;
 
+import com.rongyan.model.entity.JesusEventEntity;
 import com.rongyan.model.entity.UserEntity;
-import com.rongyan.model.entity.UserEventEntity;
-import com.rongyan.model.enums.UserEventType;
-import com.rongyan.tvoswolfkillclient.R;
+import com.rongyan.tvoswolfkillclient.GodProxy;
 import com.rongyant.commonlib.util.LogUtils;
 
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by XRY on 2017/8/1.
@@ -16,6 +17,7 @@ import org.apache.mina.core.session.IoSession;
 
 public class ClientHandler extends IoHandlerAdapter {
     private static final String TAG = "ClientHandler";
+    public static IoSession godSession;
 
     @Override
     public void sessionCreated(IoSession session) throws Exception {
@@ -29,7 +31,7 @@ public class ClientHandler extends IoHandlerAdapter {
         super.sessionOpened(session);
         LogUtils.e(TAG, "sessionClosed", "ip:" + session.getRemoteAddress().toString()
                 + " session closed");
-        session.write(new UserEventEntity(new UserEntity(1, "test", R.mipmap.ic_launcher), UserEventType.GET, 1));
+        session.write(new UserEntity("test", 1));
 
     }
 
@@ -52,6 +54,11 @@ public class ClientHandler extends IoHandlerAdapter {
         super.messageReceived(session, message);
         LogUtils.e(TAG, "messageReceived", "ip:" + session.getRemoteAddress().toString()
                 + " received" + message);
+        godSession = session;
+        GodProxy.getInstance();
+        if (message instanceof JesusEventEntity) {
+            EventBus.getDefault().post((message));
+        }
     }
 
     @Override

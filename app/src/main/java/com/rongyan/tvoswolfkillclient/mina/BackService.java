@@ -71,7 +71,14 @@ public class BackService extends Service {
                 @Override
                 public void run() {
                     connectFuture = connector.connect(new InetSocketAddress(ip, SERVER_PORT));
-                    LogUtils.e(TAG, "setServerIp", "connected server,ip:" + ip);
+
+                    if (connectFuture.isConnected()) {
+                        LogUtils.e(TAG, "setServerIp", "connected server,ip:" + ip);
+                    } else {
+                        LogUtils.e(TAG, "setServerIp", "connected failed");
+
+                    }
+
                 }
             }).start();
 
