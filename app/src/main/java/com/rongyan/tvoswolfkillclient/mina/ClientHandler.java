@@ -3,6 +3,9 @@ package com.rongyan.tvoswolfkillclient.mina;
 import com.rongyan.model.entity.JesusEventEntity;
 import com.rongyan.model.entity.UserEntity;
 import com.rongyan.tvoswolfkillclient.GodProxy;
+import com.rongyan.tvoswolfkillclient.UserHolder;
+import com.rongyan.tvoswolfkillclient.activity.CardActivity;
+import com.rongyan.tvoswolfkillclient.event_message.GoActivityEvent;
 import com.rongyant.commonlib.util.LogUtils;
 
 import org.apache.mina.core.service.IoHandlerAdapter;
@@ -58,6 +61,10 @@ public class ClientHandler extends IoHandlerAdapter {
         GodProxy.getInstance();
         if (message instanceof JesusEventEntity) {
             EventBus.getDefault().post((message));
+        }
+        if (message instanceof UserEntity) {
+            UserHolder.userEntity = (UserEntity) message;
+            EventBus.getDefault().post(new GoActivityEvent(CardActivity.class));
         }
     }
 

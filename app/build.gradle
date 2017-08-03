@@ -36,7 +36,6 @@ dependencies {
     //butterknife
     compile 'com.jakewharton:butterknife:8.7.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.7.0'
-
     compile 'de.greenrobot:eventbus:3.0.0-beta1'
     testCompile 'junit:junit:4.12'
     compile project(':commonlib')

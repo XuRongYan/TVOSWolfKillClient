@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">TVOSWolfKillClient</string>
+    <string name="string_your_role_is">您的身份是：</string>
+    <string name="string_teller">预言家</string>
+    <string name="string_witch">女巫</string>
+    <string name="string_wolf">狼人</string>
+    <string name="string_hunter">猎人</string>
+    <string name="string_idiot">白痴</string>
+    <string name="string_guard">守卫</string>
+    <string name="string_villager">村民</string>
 </resources>
