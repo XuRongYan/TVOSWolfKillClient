@@ -38,6 +38,7 @@ public class GodProxy {
 
     @Subscribe(threadMode = ThreadMode.BackgroundThread)
     public void onMessageEvent(UserEventEntity userEventEntity) {
+        LogUtils.e(TAG, "onMessageEvent", "get message from user,detail:" + userEventEntity.toString());
         godSession.write(userEventEntity);
     }
 
