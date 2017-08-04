@@ -20,11 +20,12 @@ public class CardActivity extends BaseActivity {
     protected void initViews(Bundle savedInstanceState) {
         fragment = (CardFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.content_frame_card);
+
         ActionFragment actionFragment = ActionFragment.newInstance();
 
         if (fragment == null) {
             fragment = CardFragment.newInstance();
-            ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), fragment, R.id.content_frame_card);
+            ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), fragment, R.id.content_frame_card, null);
             //ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), actionFragment, R.id.content_frame_card);
         } else {
             ActivityUtils.showFragment(getSupportFragmentManager(), fragment);

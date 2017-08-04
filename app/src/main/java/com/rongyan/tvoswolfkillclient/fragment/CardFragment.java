@@ -75,6 +75,6 @@ public class CardFragment extends BaseFragment {
 //        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
 //        transaction.replace(R.id.content_frame_card, fragment);
 //        transaction.commit();
-        ActivityUtils.replaceFragment(getActivity().getSupportFragmentManager(), ((CardActivity) getActivity()).actionFragment, R.id.content_frame_card);
+        ActivityUtils.replaceFragment(getActivity().getSupportFragmentManager(), ((CardActivity) getActivity()).actionFragment, R.id.content_frame_card, null);
     }
 }

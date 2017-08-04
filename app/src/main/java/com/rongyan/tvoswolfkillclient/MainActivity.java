@@ -68,6 +68,7 @@ public class MainActivity extends BaseActivity {
     protected void initViews(Bundle savedInstanceState) {
         EventBus.getDefault().register(this);
         intent = new Intent(this, BackService.class);
+
     }
 
     @OnClick({R.id.btn_connect})

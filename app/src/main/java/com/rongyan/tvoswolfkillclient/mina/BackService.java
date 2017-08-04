@@ -75,6 +75,7 @@ public class BackService extends Service {
                     if (connectFuture.isConnected()) {
                         LogUtils.e(TAG, "setServerIp", "connected server,ip:" + ip);
                     } else {
+
                         LogUtils.e(TAG, "setServerIp", "connected failed");
 
                     }
