@@ -210,6 +210,7 @@ public class ViewHolder extends RecyclerView.ViewHolder {
 
     public ViewHolder setTag(int viewId, int key, Object tag) {
         View view = getView(viewId);
+
         view.setTag(key, tag);
         return this;
     }

@@ -6,7 +6,7 @@ android {
     buildToolsVersion "26.0.0"
     defaultConfig {
         applicationId "com.rongyan.tvoswolfkillclient"
-        minSdkVersion 19
+        minSdkVersion 17
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -41,4 +41,5 @@ dependencies {
     compile project(':commonlib')
     compile files('libs/mina-core-2.0.16.jar')
     compile files('libs/slf4j-api-1.7.21.jar')
+    compile files('libs/slf4j-nop-1.7.21.jar')
 }

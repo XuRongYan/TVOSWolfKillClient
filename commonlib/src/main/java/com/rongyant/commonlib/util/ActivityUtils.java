@@ -17,7 +17,10 @@ public class ActivityUtils {
         }
 
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-
+////遍历隐藏所有添加的fragment
+//        for (Fragment fragment1 : fragmentManager.getFragments()) {
+//            transaction.hide(fragment1);
+//        }
         if (tag == null) {
             transaction.add(fgmId, fragment);
         } else {
@@ -54,7 +57,7 @@ public class ActivityUtils {
             if (tag == null) {
                 transaction.add(fgmId, to).commit();
             } else {
-                transaction.add(fgmId, to, tag);
+                transaction.add(fgmId, to, tag).commit();
             }
         } else { //若已经添加
             transaction.show(to).commit();

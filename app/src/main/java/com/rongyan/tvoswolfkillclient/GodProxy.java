@@ -1,6 +1,7 @@
 package com.rongyan.tvoswolfkillclient;
 
 import com.rongyan.model.entity.UserEventEntity;
+import com.rongyan.model.message.ConfirmMessage;
 import com.rongyan.tvoswolfkillclient.mina.ClientHandler;
 import com.rongyant.commonlib.util.LogUtils;
 
@@ -23,6 +24,7 @@ public class GodProxy {
         if (godSession == null) {
             LogUtils.e(TAG, "constructor", "getSessionFailed");
         }
+        EventBus.getDefault().register(this);
     }
 
     public static GodProxy getInstance() {
@@ -40,6 +42,12 @@ public class GodProxy {
     public void onMessageEvent(UserEventEntity userEventEntity) {
         LogUtils.e(TAG, "onMessageEvent", "get message from user,detail:" + userEventEntity.toString());
         godSession.write(userEventEntity);
+    }
+
+    @Subscribe(threadMode = ThreadMode.BackgroundThread)
+    public void onMessageEvent(ConfirmMessage message) {
+        LogUtils.e(TAG, "onMessageEvent", "get message from user,detail:" + message.toString());
+        godSession.write(message);
     }
 
     public void unRegister() {

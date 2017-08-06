@@ -71,11 +71,13 @@ public class BackService extends Service {
                 @Override
                 public void run() {
                     connectFuture = connector.connect(new InetSocketAddress(ip, SERVER_PORT));
-
-                    if (connectFuture.isConnected()) {
+                    connectFuture.awaitUninterruptibly(10 * 1000);
+                    if (connectFuture != null && connectFuture.isConnected()) {
                         LogUtils.e(TAG, "setServerIp", "connected server,ip:" + ip);
                     } else {
-
+                        if (connectFuture.getException() != null) {
+                            connectFuture.getException().printStackTrace();
+                        }
                         LogUtils.e(TAG, "setServerIp", "connected failed");
 
                     }

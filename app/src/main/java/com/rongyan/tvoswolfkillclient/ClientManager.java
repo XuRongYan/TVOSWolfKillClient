@@ -19,14 +19,18 @@ import com.rongyan.model.state.VoteState;
 import com.rongyan.tvoswolfkillclient.event_message.ReplaceFgmEvent;
 import com.rongyan.tvoswolfkillclient.event_message.ShowDialogEvent;
 import com.rongyan.tvoswolfkillclient.fragment.FragmentTagHolder;
+import com.rongyant.commonlib.util.LogUtils;
 
 import de.greenrobot.event.EventBus;
+import de.greenrobot.event.Subscribe;
+import de.greenrobot.event.ThreadMode;
 
 /**
  * Created by XRY on 2017/8/4.
  */
 
 public class ClientManager {
+    private static final String TAG = "ClientManager";
     private static ClientManager INSTANCE = null;
     private UserEntity userEntity;
 
@@ -46,11 +50,20 @@ public class ClientManager {
         return INSTANCE;
     }
 
+    @Subscribe(threadMode = ThreadMode.BackgroundThread)
     public void onMessageEvent(JesusEventEntity eventEntity) {
-        //TODO 用户输入采用Rxjava的zip方法打包发送给God
+        LogUtils.e(TAG, "onMessageEvent", "receive");
+        if (userEntity == null) {
+            userEntity = UserHolder.userEntity;
+            if (userEntity == null) {
+                LogUtils.e(TAG, "onMessageEvent", "can't find user");
+                return;
+            }
+        }
         if (eventEntity.getRoleType() == userEntity.getRoleType()
                 || eventEntity.getRoleType() == RoleType.ANY
                 || (eventEntity.getRoleType() == RoleType.GOD && (userEntity.getRoleType() == RoleType.TELLER || userEntity.getRoleType() == RoleType.WITCH || userEntity.getRoleType() == RoleType.HUNTER || userEntity.getRoleType() == RoleType.IDIOT || userEntity.getRoleType() == RoleType.GUARD))) {
+            LogUtils.e(TAG, "onMessageEvent","event bus received message:" + eventEntity.toString());
             switch (eventEntity.getEvent()) {
                 case CLOSE_EYES:
                     userEntity.setState(new CloseEyesState());
@@ -60,23 +73,23 @@ public class ClientManager {
                     break;
                 case KILL:
                     userEntity.setState(new KillState());
-                    EventBus.getDefault().post(new ReplaceFgmEvent(FragmentTagHolder.WOLF_FGM));
+                    EventBus.getDefault().post(new ReplaceFgmEvent(FragmentTagHolder.ACTION_FGM, eventEntity.getTargetId()));
                     break;
                 case PROTECT:
                     userEntity.setState(new ProtectState());
-                    EventBus.getDefault().post(new ReplaceFgmEvent(FragmentTagHolder.GUARD_FGM));
+                    EventBus.getDefault().post(new ReplaceFgmEvent(FragmentTagHolder.ACTION_FGM, eventEntity.getTargetId()));
                     break;
                 case POISON:
                     userEntity.setState(new PoisonState());
-                    EventBus.getDefault().post(new ReplaceFgmEvent(FragmentTagHolder.WITCH_FGM));
+                    EventBus.getDefault().post(new ReplaceFgmEvent(FragmentTagHolder.ACTION_FGM, eventEntity.getTargetId()));
                     break;
                 case SAVE:
                     userEntity.setState(new SaveState());
-                    EventBus.getDefault().post(new ReplaceFgmEvent(FragmentTagHolder.SAVE_FGM));
+                    EventBus.getDefault().post(new ReplaceFgmEvent(FragmentTagHolder.SAVE_FGM, eventEntity.getTargetId()));
                     break;
                 case SHOOT:
                     userEntity.setState(new ShootState());
-                    EventBus.getDefault().post(new ReplaceFgmEvent(FragmentTagHolder.HUNTER_FGM));
+                    EventBus.getDefault().post(new ReplaceFgmEvent(FragmentTagHolder.ACTION_FGM, eventEntity.getTargetId()));
                     break;
                 case TRUE:
                     break;
@@ -84,7 +97,7 @@ public class ClientManager {
                     break;
                 case GET:
                     userEntity.setState(new GetState());
-                    EventBus.getDefault().post(new ReplaceFgmEvent(FragmentTagHolder.TELLER_FGM));
+                    EventBus.getDefault().post(new ReplaceFgmEvent(FragmentTagHolder.ACTION_FGM, eventEntity.getTargetId()));
                     break;
                 case CHIEF_CAMPAIGN:
                     userEntity.setState(new ChiefCampaignState());
@@ -92,7 +105,7 @@ public class ClientManager {
                     break;
                 case VOTE:
                     userEntity.setState(new VoteState());
-                    EventBus.getDefault().post(new ShowDialogEvent(FragmentTagHolder.VOTE_FGM));
+                    EventBus.getDefault().post(new ReplaceFgmEvent(FragmentTagHolder.ACTION_FGM));
                     break;
                 case SPEECH:
                     userEntity.setState(new SpeechState());

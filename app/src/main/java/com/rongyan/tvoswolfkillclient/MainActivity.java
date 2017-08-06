@@ -11,7 +11,10 @@ import android.widget.EditText;
 
 import com.rongyan.tvoswolfkillclient.base.BaseActivity;
 import com.rongyan.tvoswolfkillclient.event_message.GoActivityEvent;
+import com.rongyan.tvoswolfkillclient.event_message.ShowDialogEvent;
 import com.rongyan.tvoswolfkillclient.mina.BackService;
+import com.rongyant.commonlib.util.LogUtils;
+import com.rongyant.commonlib.util.NetWorkUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -30,7 +33,7 @@ public class MainActivity extends BaseActivity {
 
     private Intent intent;
     public BackService.LocalBinder binder;
-    private ServiceConnection connection = new ServiceConnection() {
+    public ServiceConnection connection = new ServiceConnection() {
 
 
         @Override
@@ -68,6 +71,8 @@ public class MainActivity extends BaseActivity {
     protected void initViews(Bundle savedInstanceState) {
         EventBus.getDefault().register(this);
         intent = new Intent(this, BackService.class);
+        LogUtils.e(TAG_LOG, "initViews", NetWorkUtil.getHostIp());
+        editText.setText("127.0.0.1");
 
     }
 
@@ -86,6 +91,15 @@ public class MainActivity extends BaseActivity {
         goActivity(event.getCls());
     }
 
+
+    @Subscribe(threadMode = ThreadMode.MainThread)
+    public void onMessageEvent(ShowDialogEvent event) {
+
+    }
+
+    private void replaceFgm(String tag) {
+
+    }
 
 
 //    @Override

@@ -3,19 +3,7 @@ package com.rongyan.model.entity;
 
 import com.rongyan.model.abstractinterface.BaseState;
 import com.rongyan.model.enums.RoleType;
-import com.rongyan.model.state.ChiefCampaignState;
-import com.rongyan.model.state.CloseEyesState;
-import com.rongyan.model.state.DeadState;
-import com.rongyan.model.state.GetState;
-import com.rongyan.model.state.KillState;
 import com.rongyan.model.state.OpenEyesState;
-import com.rongyan.model.state.PoisonDeadState;
-import com.rongyan.model.state.PoisonState;
-import com.rongyan.model.state.ProtectState;
-import com.rongyan.model.state.SaveState;
-import com.rongyan.model.state.ShootState;
-import com.rongyan.model.state.SpeechState;
-import com.rongyan.model.state.VoteState;
 
 import java.io.Serializable;
 

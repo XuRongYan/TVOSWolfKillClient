@@ -32,8 +32,9 @@ public class ClientHandler extends IoHandlerAdapter {
     @Override
     public void sessionOpened(IoSession session) throws Exception {
         super.sessionOpened(session);
-        LogUtils.e(TAG, "sessionClosed", "ip:" + session.getRemoteAddress().toString()
+        LogUtils.e(TAG, "sessionOpened", "ip:" + session.getRemoteAddress().toString()
                 + " session closed");
+        //GodProxy.getInstance();
         session.write(new UserEntity("test", 1));
 
     }

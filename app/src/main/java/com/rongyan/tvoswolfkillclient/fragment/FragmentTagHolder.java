@@ -14,4 +14,5 @@ public class FragmentTagHolder {
     public static final String SAVE_FGM = "SAVE_FGM";
     public static final String VOTE_FGM = "VOTE_FGM";
     public static final String DEAD_FGM = "DEAD_FGM";
+    public static final String ACTION_FGM = "ACTION_FGM";
 }

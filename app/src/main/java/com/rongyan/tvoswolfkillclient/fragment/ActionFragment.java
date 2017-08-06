@@ -1,18 +1,40 @@
 package com.rongyan.tvoswolfkillclient.fragment;
 
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 
+import com.rongyan.model.entity.UserEventEntity;
+import com.rongyan.model.enums.UserEventType;
 import com.rongyan.tvoswolfkillclient.R;
-import com.rongyan.tvoswolfkillclient.activity.CardActivity;
+import com.rongyan.tvoswolfkillclient.UserHolder;
+import com.rongyan.tvoswolfkillclient.adapter.ChoosePlayerAdapter;
 import com.rongyan.tvoswolfkillclient.base.BaseFragment;
-import com.rongyant.commonlib.util.ActivityUtils;
+import com.rongyan.tvoswolfkillclient.entity.VoteEntity;
+import com.rongyant.commonlib.util.LogUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by XRY on 2017/8/3.
  */
 
 public class ActionFragment extends BaseFragment {
+    private static final String TAG = "ActionFragment";
+    @BindView(R.id.btn_submit)
+    Button btnSubmit;
+    @BindView(R.id.recycler_action)
+    RecyclerView recyclerView;
+    private ArrayList<Integer> players;
+    private ChoosePlayerAdapter choosePlayerAdapter;
+    private List<VoteEntity> voteList;
 
     public static ActionFragment newInstance() {
 
@@ -26,7 +48,13 @@ public class ActionFragment extends BaseFragment {
 
     @Override
     protected void initViews(View rootView) {
-
+        LogUtils.e(TAG, "initViews", "im start");
+        voteList = new ArrayList<>();
+        players = getArguments().getIntegerArrayList("players");
+        for (int i = 0; i < players.size(); i++) {
+            voteList.add(new VoteEntity(players.get(i), false));
+        }
+        initRecyclerView();
     }
 
     @Override
@@ -34,13 +62,34 @@ public class ActionFragment extends BaseFragment {
         return R.layout.fragment_action;
     }
 
+    private void initRecyclerView() {
+        if (voteList == null) {
+            LogUtils.e(TAG, "initRecyclerView", "fail to init recyclerView,because data is null");
+            return;
+        }
 
+        choosePlayerAdapter = new ChoosePlayerAdapter(getActivity(),
+                voteList,
+                recyclerView);
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 5));
+        recyclerView.setAdapter(choosePlayerAdapter);
+    }
 
-    private void replaceFgm() {
-//        CardFragment fragment = ((CardActivity) getActivity()).fragment;
-//        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-//        transaction.replace(R.id.content_frame_card, fragment);
-//        transaction.commit();
-        ActivityUtils.replaceFragment(getActivity().getSupportFragmentManager(), ((CardActivity) getActivity()).fragment, R.id.content_frame_card, null);
+    @OnClick({R.id.btn_submit})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btn_submit:
+                onSubmitClick();
+                break;
+        }
+    }
+
+    private void onSubmitClick() {
+        int checkedId = choosePlayerAdapter.getCheckedId();
+        if (checkedId != -1) {
+            EventBus.getDefault().post(new UserEventEntity(UserHolder.userEntity,
+                    UserEventType.KILL,
+                    checkedId));
+        }
     }
 }
