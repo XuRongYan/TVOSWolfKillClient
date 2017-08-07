@@ -33,6 +33,7 @@ public class ClientManager {
     private static final String TAG = "ClientManager";
     private static ClientManager INSTANCE = null;
     private UserEntity userEntity;
+    public static boolean isChampaign = false; //是否参与竞选
 
     private ClientManager() {
         EventBus.getDefault().register(this);
@@ -123,6 +124,15 @@ public class ClientManager {
                 case POISON_DEAD:
                     userEntity.setState(new PoisonDeadState());
                     EventBus.getDefault().post(new ReplaceFgmEvent(FragmentTagHolder.DEAD_FGM));
+                    break;
+                case CHIEF_SPEECH:
+                    if (isChampaign) {
+                        userEntity.setState(new SpeechState());
+                    }
+                    break;
+                case CHIEF_VOTE:
+                    userEntity.setState(new VoteState());
+                    EventBus.getDefault().post(new ReplaceFgmEvent(FragmentTagHolder.ACTION_FGM));
                     break;
             }
         }
