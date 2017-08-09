@@ -11,7 +11,7 @@ import android.widget.EditText;
 
 import com.rongyan.tvoswolfkillclient.base.BaseActivity;
 import com.rongyan.tvoswolfkillclient.event_message.GoActivityEvent;
-import com.rongyan.tvoswolfkillclient.event_message.ShowDialogEvent;
+import com.rongyan.tvoswolfkillclient.event_message.ShowPopupEvent;
 import com.rongyan.tvoswolfkillclient.mina.BackService;
 import com.rongyant.commonlib.util.LogUtils;
 import com.rongyant.commonlib.util.NetWorkUtil;
@@ -93,7 +93,7 @@ public class MainActivity extends BaseActivity {
 
 
     @Subscribe(threadMode = ThreadMode.MainThread)
-    public void onMessageEvent(ShowDialogEvent event) {
+    public void onMessageEvent(ShowPopupEvent event) {
 
     }
 

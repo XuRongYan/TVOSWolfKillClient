@@ -6,13 +6,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 
-import com.rongyan.model.entity.UserEventEntity;
-import com.rongyan.model.enums.UserEventType;
 import com.rongyan.tvoswolfkillclient.R;
 import com.rongyan.tvoswolfkillclient.UserHolder;
 import com.rongyan.tvoswolfkillclient.adapter.ChoosePlayerAdapter;
 import com.rongyan.tvoswolfkillclient.base.BaseFragment;
 import com.rongyan.tvoswolfkillclient.entity.VoteEntity;
+import com.rongyan.tvoswolfkillclient.event_message.ReplaceFgmEvent;
 import com.rongyant.commonlib.util.LogUtils;
 
 import java.util.ArrayList;
@@ -49,12 +48,32 @@ public class ActionFragment extends BaseFragment {
     @Override
     protected void initViews(View rootView) {
         LogUtils.e(TAG, "initViews", "im start");
+
         voteList = new ArrayList<>();
         players = getArguments().getIntegerArrayList("players");
         for (int i = 0; i < players.size(); i++) {
             voteList.add(new VoteEntity(players.get(i), false));
         }
         initRecyclerView();
+
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 
     @Override
@@ -87,9 +106,17 @@ public class ActionFragment extends BaseFragment {
     private void onSubmitClick() {
         int checkedId = choosePlayerAdapter.getCheckedId();
         if (checkedId != -1) {
-            EventBus.getDefault().post(new UserEventEntity(UserHolder.userEntity,
-                    UserEventType.KILL,
-                    checkedId));
+            UserHolder.userEntity.send(checkedId);
         }
+        EventBus.getDefault().post(new ReplaceFgmEvent(FragmentTagHolder.CARD_FGM, 0));
+    }
+
+    public void setList(ArrayList<Integer> list) {
+        List<VoteEntity> voteList = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            voteList.add(new VoteEntity(list.get(i), false));
+        }
+        choosePlayerAdapter.removeAll();
+        choosePlayerAdapter.addListAtStart(voteList);
     }
 }

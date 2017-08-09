@@ -17,7 +17,7 @@ import com.rongyan.model.state.ShootState;
 import com.rongyan.model.state.SpeechState;
 import com.rongyan.model.state.VoteState;
 import com.rongyan.tvoswolfkillclient.event_message.ReplaceFgmEvent;
-import com.rongyan.tvoswolfkillclient.event_message.ShowDialogEvent;
+import com.rongyan.tvoswolfkillclient.event_message.ShowPopupEvent;
 import com.rongyan.tvoswolfkillclient.fragment.FragmentTagHolder;
 import com.rongyant.commonlib.util.LogUtils;
 
@@ -33,6 +33,8 @@ public class ClientManager {
     private static final String TAG = "ClientManager";
     private static ClientManager INSTANCE = null;
     private UserEntity userEntity;
+    public static final int GOOD = 1; //好人
+    public static final int BAD = 0; //狼人
     public static boolean isChampaign = false; //是否参与竞选
 
     private ClientManager() {
@@ -68,9 +70,11 @@ public class ClientManager {
             switch (eventEntity.getEvent()) {
                 case CLOSE_EYES:
                     userEntity.setState(new CloseEyesState());
+                    EventBus.getDefault().post(new ReplaceFgmEvent(FragmentTagHolder.CARD_FGM, eventEntity.getTargetId()));
                     break;
                 case OPEN_EYES:
                     userEntity.setState(new OpenEyesState());
+                    EventBus.getDefault().post(new ReplaceFgmEvent(FragmentTagHolder.CARD_FGM, eventEntity.getTargetId()));
                     break;
                 case KILL:
                     userEntity.setState(new KillState());
@@ -102,20 +106,25 @@ public class ClientManager {
                     break;
                 case CHIEF_CAMPAIGN:
                     userEntity.setState(new ChiefCampaignState());
-                    EventBus.getDefault().post(new ShowDialogEvent(ShowDialogEvent.SHOW_CHAMPAIGN));
+                    EventBus.getDefault().post(new ShowPopupEvent(ShowPopupEvent.SHOW_CHAMPAIGN));
                     break;
                 case VOTE:
                     userEntity.setState(new VoteState());
-                    EventBus.getDefault().post(new ReplaceFgmEvent(FragmentTagHolder.ACTION_FGM));
+                    EventBus.getDefault().post(new ReplaceFgmEvent(FragmentTagHolder.ACTION_FGM, eventEntity.getTargetId()));
                     break;
                 case SPEECH:
                     userEntity.setState(new SpeechState());
+                    EventBus.getDefault().post(new ReplaceFgmEvent(FragmentTagHolder.CARD_FGM, eventEntity.getTargetId()));
                     break;
                 case STOP_SPEECH:
                     userEntity.setState(new OpenEyesState());
+                    EventBus.getDefault().post(new ReplaceFgmEvent(FragmentTagHolder.CARD_FGM, eventEntity.getTargetId()));
                     break;
                 case GOOD_OR_NOT:
 
+                    int[] targetId = eventEntity.getTargetId();
+                    EventBus.getDefault().post(new ShowPopupEvent(targetId[0] == GOOD ?
+                            ShowPopupEvent.SHOW_GOOD : ShowPopupEvent.SHOW_BAD));
                     break;
                 case DEAD:
                     userEntity.setState(new DeadState());
@@ -128,11 +137,12 @@ public class ClientManager {
                 case CHIEF_SPEECH:
                     if (isChampaign) {
                         userEntity.setState(new SpeechState());
+                        EventBus.getDefault().post(new ReplaceFgmEvent(FragmentTagHolder.CARD_FGM, eventEntity.getTargetId()));
                     }
                     break;
                 case CHIEF_VOTE:
                     userEntity.setState(new VoteState());
-                    EventBus.getDefault().post(new ReplaceFgmEvent(FragmentTagHolder.ACTION_FGM));
+                    EventBus.getDefault().post(new ReplaceFgmEvent(FragmentTagHolder.ACTION_FGM, eventEntity.getTargetId()));
                     break;
             }
         }

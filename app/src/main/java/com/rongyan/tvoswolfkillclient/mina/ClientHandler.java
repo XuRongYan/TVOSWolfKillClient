@@ -2,6 +2,7 @@ package com.rongyan.tvoswolfkillclient.mina;
 
 import com.rongyan.model.entity.JesusEventEntity;
 import com.rongyan.model.entity.UserEntity;
+import com.rongyan.model.message.ConfirmMessage;
 import com.rongyan.tvoswolfkillclient.GodProxy;
 import com.rongyan.tvoswolfkillclient.UserHolder;
 import com.rongyan.tvoswolfkillclient.activity.CardActivity;
@@ -62,6 +63,9 @@ public class ClientHandler extends IoHandlerAdapter {
         GodProxy.getInstance();
         if (message instanceof JesusEventEntity) {
             EventBus.getDefault().post((message));
+            //发送确认信号表示已经收到命令
+            session.write(new ConfirmMessage(UserHolder.userEntity.getUserId(),
+                    ConfirmMessage.CONFIRM));
         }
         if (message instanceof UserEntity) {
             UserHolder.userEntity = (UserEntity) message;
