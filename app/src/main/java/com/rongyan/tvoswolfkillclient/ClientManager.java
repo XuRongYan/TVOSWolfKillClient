@@ -36,6 +36,7 @@ public class ClientManager {
     public static final int GOOD = 1; //好人
     public static final int BAD = 0; //狼人
     public static boolean isChampaign = false; //是否参与竞选
+    private boolean canWitchSaveHerself = true;
 
     private ClientManager() {
         EventBus.getDefault().register(this);
@@ -71,6 +72,9 @@ public class ClientManager {
                 case CLOSE_EYES:
                     userEntity.setState(new CloseEyesState());
                     EventBus.getDefault().post(new ReplaceFgmEvent(FragmentTagHolder.CARD_FGM, eventEntity.getTargetId()));
+                    if (userEntity.getRoleType() == RoleType.WITCH) {
+                        canWitchSaveHerself = false;
+                    }
                     break;
                 case OPEN_EYES:
                     userEntity.setState(new OpenEyesState());
@@ -85,12 +89,13 @@ public class ClientManager {
                     EventBus.getDefault().post(new ReplaceFgmEvent(FragmentTagHolder.ACTION_FGM, eventEntity.getTargetId()));
                     break;
                 case POISON:
+                    //弃用
                     userEntity.setState(new PoisonState());
-                    EventBus.getDefault().post(new ReplaceFgmEvent(FragmentTagHolder.ACTION_FGM, eventEntity.getTargetId()));
+                    EventBus.getDefault().post(new ShowPopupEvent(ShowPopupEvent.WITCH_CHOOSE, eventEntity.getTargetId()));
                     break;
                 case SAVE:
                     userEntity.setState(new SaveState());
-                    EventBus.getDefault().post(new ReplaceFgmEvent(FragmentTagHolder.SAVE_FGM, eventEntity.getTargetId()));
+                    EventBus.getDefault().post(new ShowPopupEvent(ShowPopupEvent.WITCH_CHOOSE, eventEntity.getTargetId()));
                     break;
                 case SHOOT:
                     userEntity.setState(new ShootState());
@@ -144,7 +149,18 @@ public class ClientManager {
                     userEntity.setState(new VoteState());
                     EventBus.getDefault().post(new ReplaceFgmEvent(FragmentTagHolder.ACTION_FGM, eventEntity.getTargetId()));
                     break;
+                case GET_SHOOT_STATE:
+                    EventBus.getDefault().post(new ShowPopupEvent(ShowPopupEvent.HUNTER_GET_SHOOT_STATE, eventEntity.getTargetId()));
+                    break;
             }
         }
+    }
+
+    public boolean isCanWitchSaveHerself() {
+        return canWitchSaveHerself;
+    }
+
+    public void setCanWitchSaveHerself(boolean canWitchSaveHerself) {
+        this.canWitchSaveHerself = canWitchSaveHerself;
     }
 }

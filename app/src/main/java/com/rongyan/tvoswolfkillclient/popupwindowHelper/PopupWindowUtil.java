@@ -358,6 +358,12 @@ public class PopupWindowUtil {
             return this;
         }
 
+        public Builder setClickable(int viewId, boolean clickable) {
+            View view = getView(viewId);
+            view.setClickable(clickable);
+            return this;
+        }
+
         public PopupWindowUtil build() {
             mHelper.setContentView(mContentView);
             mHelper.setContext(mContext);

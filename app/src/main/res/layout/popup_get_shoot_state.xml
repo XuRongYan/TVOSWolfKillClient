@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorTransparentGray">
+
+    <TextView
+        android:id="@+id/tv_popup_get_shoot_state"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="22sp"
+        android:textColor="@color/colorWhite"
+        android:text="可以开枪"
+        android:gravity="center"/>
+
+</RelativeLayout>
