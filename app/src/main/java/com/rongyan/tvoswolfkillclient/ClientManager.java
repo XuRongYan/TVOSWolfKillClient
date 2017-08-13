@@ -35,6 +35,8 @@ public class ClientManager {
     private UserEntity userEntity;
     public static final int GOOD = 1; //好人
     public static final int BAD = 0; //狼人
+    public static final int SINGLE_DEATH = 0X0; //单死，死左死右
+    public static final int DOUBLE_DEATH = 0X1; //双死，警左警右
     public static boolean isChampaign = false; //是否参与竞选
     private boolean canWitchSaveHerself = true;
 
@@ -151,6 +153,18 @@ public class ClientManager {
                     break;
                 case GET_SHOOT_STATE:
                     EventBus.getDefault().post(new ShowPopupEvent(ShowPopupEvent.HUNTER_GET_SHOOT_STATE, eventEntity.getTargetId()));
+                    break;
+                case YOU_ARE_CHIEF:
+                    int[] targetId1 = eventEntity.getTargetId();
+                    if (targetId1[0] == userEntity.getUserId()) {
+                        EventBus.getDefault().post(new ShowPopupEvent(ShowPopupEvent.SHOW_CHIEF, eventEntity.getTargetId()));
+                    }
+                    break;
+                case CHOOSE_SEQUENCE:
+                    int[] sequenceType = eventEntity.getTargetId();
+                    if (sequenceType[0] == userEntity.getUserId()) {
+                        EventBus.getDefault().post(new ShowPopupEvent(ShowPopupEvent.CHOOSE_SEQUENCE, sequenceType));
+                    }
                     break;
             }
         }

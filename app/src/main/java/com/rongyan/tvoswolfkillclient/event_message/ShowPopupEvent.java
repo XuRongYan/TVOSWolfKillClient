@@ -11,6 +11,8 @@ public class ShowPopupEvent {
     public static final String WITCH_CHOOSE = "WITCH_CHOOSE"; //女巫选择行动
     public static final String HUNTER_GET_SHOOT_STATE = "HUNTER_GET_SHOOT_STATE"; //获取猎人开枪状态
     public static final String HUNTER_SOOT_OR_NOT = "HUNTER_SOOT_OR_NOT";
+    public static final String SHOW_CHIEF = "SHOW_CHIEF"; //显示警徽
+    public static final String CHOOSE_SEQUENCE = "CHOOSE_SEQUENCE"; //选择发言顺序
     private String message;
 
     private int[] targetId;

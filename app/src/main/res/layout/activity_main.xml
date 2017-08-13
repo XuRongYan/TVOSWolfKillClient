@@ -1,37 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:padding="16dp"
     tools:context="com.rongyan.tvoswolfkillclient.MainActivity">
+
+    <ImageView
+        android:id="@+id/img_main_head_img"
+        android:layout_width="match_parent"
+        android:layout_height="256dp"
+        android:layout_centerInParent="true"
+        />
 
     <EditText
         android:id="@+id/et_server_ip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="服务器Ip"/>
+        android:hint="服务器Ip"
+        android:layout_below="@+id/img_main_head_img"/>
 
-    <LinearLayout
+
+    <Button
+        android:id="@+id/btn_connect"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
-        <Button
-            android:id="@+id/btn_connect"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="CONNECT"/>
-
-        <Button
-            android:id="@+id/btn_disconnect"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="disconnect"/>
-    </LinearLayout>
+        android:text="CONNECT"
+        android:layout_below="@+id/et_server_ip"/>
 
 
-</LinearLayout>
+</RelativeLayout>

@@ -20,6 +20,8 @@ import butterknife.BindView;
 public class CardFragment extends BaseFragment {
     @BindView(R.id.tv_role_type)
     TextView tvRoleType;
+    @BindView(R.id.tv_userid)
+    TextView tvUserid;
 
     private ActionFragment fragment;
 
@@ -36,6 +38,7 @@ public class CardFragment extends BaseFragment {
     @Override
     protected void initViews(View rootView) {
         tvRoleType.setText(R.string.string_your_role_is);
+        tvUserid.setText(UserHolder.userEntity.getUserId());
         switch (UserHolder.userEntity.getRoleType()) {
             case TELLER:
                 tvRoleType.setText(tvRoleType.getText() + getString(R.string.string_teller));

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import com.rongyan.model.entity.UserEventEntity;
 import com.rongyan.model.enums.UserEventType;
 import com.rongyan.model.message.ConfirmMessage;
+import com.rongyan.tvoswolfkillclient.ClientManager;
 import com.rongyan.tvoswolfkillclient.R;
 import com.rongyan.tvoswolfkillclient.UserHolder;
 import com.rongyan.tvoswolfkillclient.base.BaseActivity;
@@ -31,6 +32,10 @@ import static com.rongyan.tvoswolfkillclient.fragment.FragmentTagHolder.CARD_FGM
 
 public class CardActivity extends BaseActivity {
     private static final String TAG = "CardActivity";
+    public static final int CHIEF_LEFT = 0x00; //警左
+    public static final int CHIEF_RIGHT = 0x01; //警右
+    public static final int DEAD_LEFT = 0x10; //死左
+    public static final int DEAD_RIGHT = 0x11; //死右
     public CardFragment fragment;
     public ActionFragment actionFragment;
     private PopupWindowUtil showGoodPopupHelper;
@@ -38,6 +43,8 @@ public class CardActivity extends BaseActivity {
     private PopupWindowUtil showGetShootState;
     private PopupWindowUtil showChampaign;
     private PopupWindowUtil showShoot;
+    private PopupWindowUtil showChief;
+    private PopupWindowUtil showChooseSequence;
 
     @Override
     protected int getContentView() {
@@ -74,6 +81,21 @@ public class CardActivity extends BaseActivity {
         if (showGetShootState != null) {
             showGetShootState.dismiss();
         }
+        if (showChief != null) {
+            showChief.dismiss();
+        }
+        if (showShoot != null) {
+            showShoot.dismiss();
+        }
+        if (showGoodPopupHelper != null) {
+            showGoodPopupHelper.dismiss();
+        }
+        if (showChampaign != null) {
+            showChampaign.dismiss();
+        }
+        if (showChooseSequence != null) {
+            showChooseSequence.dismiss();
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MainThread)
@@ -102,7 +124,70 @@ public class CardActivity extends BaseActivity {
             case ShowPopupEvent.HUNTER_SOOT_OR_NOT:
                 showShoot(event.getTargetId());
                 break;
+            case ShowPopupEvent.SHOW_CHIEF:
+                showChief();
+                break;
+            case ShowPopupEvent.CHOOSE_SEQUENCE:
+                showChooseSequence(event.getTargetId());
+                break;
         }
+    }
+
+    private void showChooseSequence(int[] targetId) {
+        int i = targetId[1];
+        PopupWindowUtil.Builder builder = new PopupWindowUtil.Builder(this)
+                .setView(R.layout.popup_choose_speech_sequence)
+                .setLayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        if (i == ClientManager.SINGLE_DEATH) {
+            //单死死左死右
+            showChooseSequence = builder.setText(R.id.tv_popup_choose_speech_sequence, "请选择死左死右发言")
+                    .setText(R.id.btn_popup_choose_speech_sequence_clockwise, "死左发言")
+                    .setText(R.id.btn_popup_choose_speech_sequence_anti_clockwise, "死右发言")
+                    .setOnClickListener(R.id.btn_popup_choose_speech_sequence_clockwise, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                          EventBus.getDefault().post(new UserEventEntity(UserHolder.userEntity,
+                                  UserEventType.CHOOSE_SEQUENCE, CHIEF_LEFT));
+                        }
+                    })
+                    .setOnClickListener(R.id.btn_popup_choose_speech_sequence_anti_clockwise, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            EventBus.getDefault().post(new UserEventEntity(UserHolder.userEntity,
+                                    UserEventType.CHOOSE_SEQUENCE, CHIEF_RIGHT));
+                        }
+                    })
+                    .build();
+        } else {
+            //双死或者没死警左警右
+            showChooseSequence = builder.setText(R.id.tv_popup_choose_speech_sequence, "请选择警左警右发言")
+                    .setText(R.id.btn_popup_choose_speech_sequence_clockwise, "警左发言")
+                    .setText(R.id.btn_popup_choose_speech_sequence_anti_clockwise, "警右发言")
+                    .setOnClickListener(R.id.btn_popup_choose_speech_sequence_clockwise, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            EventBus.getDefault().post(new UserEventEntity(UserHolder.userEntity,
+                                    UserEventType.CHOOSE_SEQUENCE, DEAD_LEFT));
+                        }
+                    })
+                    .setOnClickListener(R.id.btn_popup_choose_speech_sequence_anti_clockwise, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            EventBus.getDefault().post(new UserEventEntity(UserHolder.userEntity,
+                                    UserEventType.CHOOSE_SEQUENCE, DEAD_RIGHT));
+                        }
+                    })
+                    .build();
+        }
+    }
+
+    private void showChief() {
+        showChief = new PopupWindowUtil.Builder(this)
+                .setView(R.layout.popup_show_chief)
+                .setLayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+                .build();
+        showChief.show(getLayoutInflater().inflate(getContentView(), null),
+                Gravity.NO_GRAVITY, 0, 0);
     }
 
     //TODO 还没有测试过，应该添加一个不开枪的事件，要不就是每个人死了都有一个固定时间判断开不开枪

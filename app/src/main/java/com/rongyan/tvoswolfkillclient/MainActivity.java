@@ -3,16 +3,24 @@ package com.rongyan.tvoswolfkillclient;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
+import com.rongyan.model.entity.UserEntity;
 import com.rongyan.tvoswolfkillclient.base.BaseActivity;
+import com.rongyan.tvoswolfkillclient.base.PermissionListener;
 import com.rongyan.tvoswolfkillclient.event_message.GoActivityEvent;
 import com.rongyan.tvoswolfkillclient.event_message.ShowPopupEvent;
 import com.rongyan.tvoswolfkillclient.mina.BackService;
+import com.rongyant.commonlib.util.BitmapUtil;
+import com.rongyant.commonlib.util.CameraUtil;
 import com.rongyant.commonlib.util.LogUtils;
 import com.rongyant.commonlib.util.NetWorkUtil;
 
@@ -28,10 +36,13 @@ public class MainActivity extends BaseActivity {
     EditText editText;
     @BindView(R.id.btn_connect)
     Button btnConnected;
-    @BindView(R.id.btn_disconnect)
-    Button btnDisconnected;
+    @BindView(R.id.img_main_head_img)
+    ImageView imageView;
+
+    private String[] permissions = {"android.permission.CAMERA"};
 
     private Intent intent;
+    private Uri mUri;
     public BackService.LocalBinder binder;
     public ServiceConnection connection = new ServiceConnection() {
 
@@ -72,6 +83,17 @@ public class MainActivity extends BaseActivity {
         EventBus.getDefault().register(this);
         intent = new Intent(this, BackService.class);
         LogUtils.e(TAG_LOG, "initViews", NetWorkUtil.getHostIp());
+        requestRuntimePermission(permissions, new PermissionListener() {
+            @Override
+            public void onGranted() {
+               mUri =  CameraUtil.openCamera(MainActivity.this, getApplication());
+            }
+
+            @Override
+            public void onDenied(String[] deniedPermissions) {
+                finish();
+            }
+        });
         editText.setText("127.0.0.1");
 
     }
@@ -101,8 +123,29 @@ public class MainActivity extends BaseActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case CameraUtil.PHOTO_REQUEST_CAREMA:
+                if (resultCode == RESULT_OK) {
+                    if (data != null) {
+                        Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+                        imageView.setImageBitmap(bitmap);
+                        UserHolder.userEntity = new UserEntity("test", BitmapUtil.bitmap2Byte(bitmap));
+                    } else {
+                        Bitmap bitmap = BitmapFactory.decodeFile(mUri.getPath());
 
-//    @Override
+                        imageView.setImageBitmap(bitmap);
+
+                        //UserHolder.userEntity = new UserEntity("test", BitmapUtil.bitmap2Byte(bitmap));
+                    }
+                }
+                break;
+        }
+    }
+
+    //    @Override
 //    public void onClick(View v) {
 //        binder.setServerIp(editText.getText().toString());
 //        Toast.makeText(this, "click", Toast.LENGTH_SHORT).show();

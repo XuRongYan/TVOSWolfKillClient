@@ -24,6 +24,6 @@ public class HunterOpenEyesState implements BaseJesusState {
 
     @Override
     public BaseJesusState next() {
-        return new HunterShootState();
+        return new HunterGetShootState();
     }
 }

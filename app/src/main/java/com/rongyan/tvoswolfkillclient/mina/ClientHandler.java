@@ -36,7 +36,7 @@ public class ClientHandler extends IoHandlerAdapter {
         LogUtils.e(TAG, "sessionOpened", "ip:" + session.getRemoteAddress().toString()
                 + " session closed");
         //GodProxy.getInstance();
-        session.write(new UserEntity("test", 1));
+        session.write(UserHolder.userEntity);
 
     }
 
