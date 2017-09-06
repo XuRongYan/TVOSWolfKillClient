@@ -95,7 +95,7 @@ public class MainActivity extends BaseActivity {
                 finish();
             }
         });
-        editText.setText("192.168.1.17");
+        editText.setText("192.168.2.218");
 
     }
 

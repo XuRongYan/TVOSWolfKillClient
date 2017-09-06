@@ -10,6 +10,7 @@ import com.rongyan.model.entity.UserEventEntity;
 import com.rongyan.model.enums.UserEventType;
 import com.rongyan.model.message.ConfirmMessage;
 import com.rongyan.tvoswolfkillclient.ClientManager;
+import com.rongyan.tvoswolfkillclient.MainActivity;
 import com.rongyan.tvoswolfkillclient.R;
 import com.rongyan.tvoswolfkillclient.UserHolder;
 import com.rongyan.tvoswolfkillclient.base.BaseActivity;
@@ -19,6 +20,7 @@ import com.rongyan.tvoswolfkillclient.event_message.ShowButton;
 import com.rongyan.tvoswolfkillclient.event_message.ShowPopupEvent;
 import com.rongyan.tvoswolfkillclient.fragment.ActionFragment;
 import com.rongyan.tvoswolfkillclient.fragment.CardFragment;
+import com.rongyan.tvoswolfkillclient.fragment.DeadFragment;
 import com.rongyan.tvoswolfkillclient.fragment.FragmentTagHolder;
 import com.rongyan.tvoswolfkillclient.popupwindowHelper.PopupWindowUtil;
 import com.rongyant.commonlib.util.ActivityUtils;
@@ -34,6 +36,7 @@ import de.greenrobot.event.ThreadMode;
 
 import static com.rongyan.tvoswolfkillclient.fragment.FragmentTagHolder.ACTION_FGM;
 import static com.rongyan.tvoswolfkillclient.fragment.FragmentTagHolder.CARD_FGM;
+import static com.rongyan.tvoswolfkillclient.fragment.FragmentTagHolder.DEAD_FGM;
 
 public class CardActivity extends BaseActivity {
     private static final String TAG = "CardActivity";
@@ -44,6 +47,7 @@ public class CardActivity extends BaseActivity {
     private long exitTime = 0;
     public CardFragment fragment;
     public ActionFragment actionFragment;
+    public DeadFragment deadFragment;
     private PopupWindowUtil showGoodPopupHelper;
     private PopupWindowUtil showWitchPop;
     private PopupWindowUtil showGetShootState;
@@ -91,7 +95,12 @@ public class CardActivity extends BaseActivity {
     public void onMessageEvent(ReplaceFgmEvent event) {
         LogUtils.e(TAG, "onMessageEvent ReplaceFgmEvent", "go " + event.getFgmTag());
         dismissAllPopup();
-        replaceFgm(event.getFgmTag(), event.getIds());
+        if (event.getFgmTag().equals("GAME_OVER")) {
+            BaseAppManager.getInstance().clearAll();
+            goActivity(MainActivity.class);
+        } else {
+            replaceFgm(event.getFgmTag(), event.getIds());
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MainThread)
@@ -163,16 +172,17 @@ public class CardActivity extends BaseActivity {
         }
     }
 
-    private void showGiveChief(int...ids) {
+    private void showGiveChief(int... ids) {
         GiveChiefAction giveChiefAction = new GiveChiefAction(ids);
-        showGiveChief = new PopupWindowUtil.Builder(this)
-                .setView(R.layout.popup_give_chief)
-                .setLayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
-                .setOnClickListener(R.id.btn_popup_give_chief_yes, giveChiefAction)
-                .setOnClickListener(R.id.btn_popup_give_chief_no, giveChiefAction)
-                .build();
-
-        showChief.show(getLayoutInflater().inflate(getContentView(), null),
+        if (showGiveChief == null) {
+            showGiveChief = new PopupWindowUtil.Builder(this)
+                    .setView(R.layout.popup_give_chief)
+                    .setLayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+                    .setOnClickListener(R.id.btn_popup_give_chief_yes, giveChiefAction)
+                    .setOnClickListener(R.id.btn_popup_give_chief_no, giveChiefAction)
+                    .build();
+        }
+        showGiveChief.show(getLayoutInflater().inflate(getContentView(), null),
                 Gravity.NO_GRAVITY, 0, 0);
 
     }
@@ -199,8 +209,8 @@ public class CardActivity extends BaseActivity {
                     .setOnClickListener(R.id.btn_popup_choose_speech_sequence_clockwise, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                          EventBus.getDefault().post(new UserEventEntity(UserHolder.userEntity,
-                                  UserEventType.CHOOSE_SEQUENCE, DEAD_LEFT));
+                            EventBus.getDefault().post(new UserEventEntity(UserHolder.userEntity,
+                                    UserEventType.CHOOSE_SEQUENCE, DEAD_LEFT));
                             showChooseSequence.dismiss();
 
                         }
@@ -400,6 +410,16 @@ public class CardActivity extends BaseActivity {
                         R.id.content_frame_card,
                         tag);
                 break;
+            case DEAD_FGM:
+                deadFragment = (DeadFragment) getSupportFragmentManager().findFragmentByTag(tag);
+                if (deadFragment == null) {
+                    deadFragment = DeadFragment.newInstance();
+                }
+                ActivityUtils.replaceFragment(getSupportFragmentManager(),
+                        deadFragment,
+                        R.id.content_frame_card,
+                        tag);
+                break;
         }
     }
 
@@ -469,14 +489,12 @@ public class CardActivity extends BaseActivity {
             switch (v.getId()) {
                 case R.id.btn_popup_give_chief_yes:
                     EventBus.getDefault().post(new ReplaceFgmEvent(ACTION_FGM, targetId));
-
                     break;
                 case R.id.btn_popup_give_chief_no:
                     EventBus.getDefault().post(new UserEventEntity(UserHolder.userEntity, UserEventType.NOT_GIVE_CHIEF, -1));
-
                     break;
             }
-            showChief.dismiss();
+            showGiveChief.dismiss();
         }
     }
 }

@@ -155,12 +155,16 @@ public class ClientManager {
                             ShowPopupEvent.SHOW_GOOD : ShowPopupEvent.SHOW_BAD));
                     break;
                 case DEAD:
-                    userEntity.setState(new DeadState());
-                    EventBus.getDefault().post(new ReplaceFgmEvent(FragmentTagHolder.DEAD_FGM));
+                    if (UserHolder.userEntity.getUserId() == eventEntity.getTargetId()[0]) {
+                        userEntity.setState(new DeadState());
+                        EventBus.getDefault().post(new ReplaceFgmEvent(FragmentTagHolder.DEAD_FGM));
+                    }
                     break;
                 case POISON_DEAD:
-                    userEntity.setState(new PoisonDeadState());
-                    EventBus.getDefault().post(new ReplaceFgmEvent(FragmentTagHolder.DEAD_FGM));
+                    if (UserHolder.userEntity.getUserId() == eventEntity.getTargetId()[0]) {
+                        userEntity.setState(new PoisonDeadState());
+                        EventBus.getDefault().post(new ReplaceFgmEvent(FragmentTagHolder.DEAD_FGM));
+                    }
                     break;
                 case CHIEF_SPEECH:
                     if (UserHolder.userEntity.isChampaign()) {
@@ -197,7 +201,15 @@ public class ClientManager {
                 case IDIOT_VOTED:
                     idiotVoted = true;
                     break;
-
+                case GAME_OVER:
+                    EventBus.getDefault().post(new ReplaceFgmEvent("GAME_OVER"));
+                    break;
+                case GIVE_CHIEF:
+                    if (UserHolder.userEntity.getUserId() == eventEntity.getTargetId()[0]) {
+                        userEntity.setState(new GiveChiefState());
+                        EventBus.getDefault().post(new ShowPopupEvent(ShowPopupEvent.GIVE_CHIEF, eventEntity.getTargetId()));
+                    }
+                    break;
             }
         } else if (UserHolder.userEntity.getState() instanceof DeadState && idiotVoted == true && UserHolder.userEntity.getRoleType() == RoleType.IDIOT) {
             if (eventEntity.getEvent() == JesusEvent.SPEECH) {
@@ -206,13 +218,5 @@ public class ClientManager {
                 userEntity.setState(new OpenEyesState());
             }
         }
-    }
-
-    public boolean isCanWitchSaveHerself() {
-        return canWitchSaveHerself;
-    }
-
-    public void setCanWitchSaveHerself(boolean canWitchSaveHerself) {
-        this.canWitchSaveHerself = canWitchSaveHerself;
     }
 }
