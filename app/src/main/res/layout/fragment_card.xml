@@ -18,6 +18,40 @@
         android:text="预言家"
         />
 
+    <TextView
+        android:id="@+id/tv_speeching"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_role_type"
+        android:gravity="center"
+        android:layout_marginTop="16dp"
+        android:text="正在发言中..."
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/btn_skip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="结束发言"
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/btn_exit_water"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:text="退水"
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/btn_self_destruction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="自爆"
+        android:visibility="gone"/>
+
 
 
 </RelativeLayout>

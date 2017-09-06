@@ -40,6 +40,6 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile project(':commonlib')
     compile files('libs/mina-core-2.0.16.jar')
+    compile files('libs/slf4j-android-1.7.21.jar')
     compile files('libs/slf4j-api-1.7.21.jar')
-    compile files('libs/slf4j-nop-1.7.21.jar')
 }

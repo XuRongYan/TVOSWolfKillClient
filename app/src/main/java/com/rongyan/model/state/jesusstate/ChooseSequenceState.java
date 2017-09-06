@@ -11,20 +11,20 @@ import com.rongyan.model.message.ToastMessage;
 import de.greenrobot.event.EventBus;
 
 /**
- * Created by XRY on 2017/8/10.
+ * Created by XRY on 2017/8/11.
  */
 
-public class HunterGetShootState implements BaseJesusState {
-    private static final String TAG = "HunterGetShootState";
+public class ChooseSequenceState implements BaseJesusState {
+    private static final String TAG = "ChooseSequenceState";
     @Override
     public void send(int... id) {
-        Log.e(TAG, "猎人今晚的开枪状态是。。。");
-        EventBus.getDefault().post(new ToastMessage("猎人今晚的开枪状态是。。。"));
-        EventBus.getDefault().post(new JesusEventEntity(RoleType.HUNTER, JesusEvent.GET_SHOOT_STATE, id));
+        Log.e(TAG, "请选择发言顺序");
+        EventBus.getDefault().post(new ToastMessage("请选择发言顺序"));
+        EventBus.getDefault().post(new JesusEventEntity(RoleType.ANY, JesusEvent.CHOOSE_SEQUENCE, id));
     }
 
     @Override
     public BaseJesusState next() {
-        return new HunterCloseEyesState();
+        return new SpeechState();
     }
 }

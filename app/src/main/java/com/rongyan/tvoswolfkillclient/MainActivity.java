@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.rongyan.model.entity.UserEntity;
 import com.rongyan.tvoswolfkillclient.base.BaseActivity;
@@ -94,7 +95,7 @@ public class MainActivity extends BaseActivity {
                 finish();
             }
         });
-        editText.setText("127.0.0.1");
+        editText.setText("192.168.1.17");
 
     }
 
@@ -111,11 +112,21 @@ public class MainActivity extends BaseActivity {
     @Subscribe(threadMode = ThreadMode.MainThread)
     public void onMessageEvent(GoActivityEvent event) {
         goActivity(event.getCls());
+        //finish();
     }
 
 
     @Subscribe(threadMode = ThreadMode.MainThread)
     public void onMessageEvent(ShowPopupEvent event) {
+
+    }
+
+    @Subscribe(threadMode = ThreadMode.MainThread)
+    public void onMessageEvent(String event) {
+        if (event.equals("该IP已被占用")) {
+            Toast.makeText(mContext, event, Toast.LENGTH_SHORT).show();
+            return;
+        }
 
     }
 

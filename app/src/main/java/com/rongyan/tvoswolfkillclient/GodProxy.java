@@ -51,6 +51,7 @@ public class GodProxy {
     }
 
     public void unRegister() {
+        godSession.closeNow();
         EventBus.getDefault().unregister(this);
     }
 

@@ -13,6 +13,8 @@ public class ShowPopupEvent {
     public static final String HUNTER_SOOT_OR_NOT = "HUNTER_SOOT_OR_NOT";
     public static final String SHOW_CHIEF = "SHOW_CHIEF"; //显示警徽
     public static final String CHOOSE_SEQUENCE = "CHOOSE_SEQUENCE"; //选择发言顺序
+    public static final String DEAD = "DEAD";
+    public static final String GIVE_CHIEF = "GIVE_CHIEF";
     private String message;
 
     private int[] targetId;

@@ -35,7 +35,7 @@ public class ChoosePlayerAdapter extends CommonAdapter<VoteEntity> {
 
     @Override
     public void onBindVH(final ViewHolder viewHolder, final VoteEntity item, int position) {
-        viewHolder.setText(R.id.tv_item_choose_player, item.getId() + "");
+        viewHolder.setText(R.id.tv_item_choose_player, (item.getId() + 1) + "");
         if (item.isChecked()) {
             viewHolder.setBackgroundRes(R.id.tv_item_choose_player, R.drawable.bg_accent_stroke);
         } else {
@@ -65,7 +65,7 @@ public class ChoosePlayerAdapter extends CommonAdapter<VoteEntity> {
                     LogUtils.e(TAG, "getCheckedId", "multi check");
                     return -1;
                 }
-                result = i;
+                result = list.get(i).getId();
             }
         }
         return result;

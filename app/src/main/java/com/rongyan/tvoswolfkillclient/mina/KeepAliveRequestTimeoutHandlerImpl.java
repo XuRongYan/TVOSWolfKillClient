@@ -1,7 +1,5 @@
 package com.rongyan.tvoswolfkillclient.mina;
 
-import com.rongyant.commonlib.util.LogUtils;
-
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.keepalive.KeepAliveFilter;
 import org.apache.mina.filter.keepalive.KeepAliveRequestTimeoutHandler;
@@ -15,6 +13,6 @@ public class KeepAliveRequestTimeoutHandlerImpl implements KeepAliveRequestTimeo
     private static final String TAG = "KeepAliveRequestTimeout";
     @Override
     public void keepAliveRequestTimedOut(KeepAliveFilter keepAliveFilter, IoSession ioSession) throws Exception {
-        LogUtils.e(TAG, "keepAliveRequestTimedOut", ioSession.getRemoteAddress().toString() + "timeout");
+        //LogUtils.e(TAG, "keepAliveRequestTimedOut", ioSession.getRemoteAddress().toString() + "timeout");
     }
 }

@@ -34,27 +34,37 @@ public class BackService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        connector = new NioSocketConnector();
-        connector.getSessionConfig().setReadBufferSize(2048);
-        connector.getSessionConfig().setIdleTime(IdleStatus.BOTH_IDLE, IDLE_TIMEOUT);
-        connector.getFilterChain().addLast("codec",
-                new ProtocolCodecFilter(new ObjectSerializationCodecFactory()));
-        KeepAliveMessageFactory heartBeatFactory = new KeepAliveMessageFactoryImpl(); //心跳包收发处理
-        KeepAliveRequestTimeoutHandler heartBeatTimeoutHandler = new KeepAliveRequestTimeoutHandlerImpl(); //心跳包超时处理
-        KeepAliveFilter heartBeatFilter = new KeepAliveFilter(heartBeatFactory, IdleStatus.BOTH_IDLE, heartBeatTimeoutHandler);
-        heartBeatFilter.setForwardEvent(true); //向后传递事件（默认截取空闲事件，这里设置成可以向后传递）
-        heartBeatFilter.setRequestInterval(HEART_BEAT_RATE); //设置心跳包频率
-        connector.getFilterChain().addLast("heartbeat", heartBeatFilter);
-        connector.setHandler(new ClientHandler());
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                connector = new NioSocketConnector();
+                connector.getSessionConfig().setReadBufferSize(2048);
+                connector.getSessionConfig().setIdleTime(IdleStatus.BOTH_IDLE, IDLE_TIMEOUT);
+                connector.getFilterChain().addLast("codec",
+                        new ProtocolCodecFilter(new ObjectSerializationCodecFactory()));
+                KeepAliveMessageFactory heartBeatFactory = new KeepAliveMessageFactoryImpl(); //心跳包收发处理
+                KeepAliveRequestTimeoutHandler heartBeatTimeoutHandler = new KeepAliveRequestTimeoutHandlerImpl(); //心跳包超时处理
+                KeepAliveFilter heartBeatFilter = new KeepAliveFilter(heartBeatFactory, IdleStatus.BOTH_IDLE, heartBeatTimeoutHandler);
+                heartBeatFilter.setForwardEvent(true); //向后传递事件（默认截取空闲事件，这里设置成可以向后传递）
+                heartBeatFilter.setRequestInterval(HEART_BEAT_RATE); //设置心跳包频率
+                connector.getFilterChain().addLast("heartbeat", heartBeatFilter);
+                connector.setHandler(new ClientHandler());
+            }
+        }).start();
 
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (connectFuture != null) {
-            connectFuture.getSession().getCloseFuture().awaitUninterruptibly(); //等待连接断开
-        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if (connectFuture != null) {
+                    connectFuture.getSession().getCloseFuture().awaitUninterruptibly(); //等待连接断开
+                }
+            }
+        }).start();
     }
 
     @Override
