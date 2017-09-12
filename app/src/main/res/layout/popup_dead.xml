@@ -4,12 +4,24 @@
     android:layout_height="match_parent"
     android:background="@color/colorTransparentGray">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textSize="22sp"
-        android:textColor="@color/colorWhite"
-        android:gravity="center"
-        android:text="你已经死了"/>
+        android:background="@mipmap/img_background"
+        android:paddingTop="100dp"
+        android:paddingStart="64dp"
+        android:paddingEnd="64dp"
+        android:paddingBottom="64dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="22sp"
+            android:gravity="center"
+            android:text="你已经死了"/>
+
+    </LinearLayout>
+
+
 
 </LinearLayout>

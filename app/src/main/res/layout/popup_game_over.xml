@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorTransparentGray"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@color/colorTransparentGray">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:background="@mipmap/img_background"
+        android:orientation="vertical"
         android:paddingTop="100dp"
         android:paddingStart="64dp"
         android:paddingEnd="64dp"
@@ -20,7 +20,8 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:textSize="22sp"
-            android:text="请选择是否开枪？"
+            android:textColor="@color/colorWhite"
+            android:text="游戏结束"
             />
 
         <LinearLayout
@@ -29,24 +30,24 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/btn_popup_shoot"
+                android:id="@+id/btn_popup_game_over_start_game"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@color/colorTransparent"
-                android:text="是"/>
+                android:text="在玩一把"
+                />
 
             <Button
-                android:id="@+id/btn_popup_not_shoot"
+                android:id="@+id/btn_popup_game_over_exit_game"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@color/colorTransparent"
-                android:text="否"/>
+                android:text="退出游戏"/>
 
         </LinearLayout>
     </LinearLayout>
 
 
-
-</LinearLayout>
+</RelativeLayout>

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rongyan.model.entity.JesusEventEntity;
@@ -41,6 +42,8 @@ public class CardFragment extends BaseFragment {
     Button btnReturnWater;
     @BindView(R.id.btn_self_destruction)
     Button btnSelfDestruction;
+    @BindView(R.id.iv_identity)
+    ImageView ivIdentity;
 
     private ActionFragment fragment;
 
@@ -62,24 +65,31 @@ public class CardFragment extends BaseFragment {
         switch (UserHolder.userEntity.getRoleType()) {
             case TELLER:
                 tvRoleType.setText(tvRoleType.getText() + getString(R.string.string_teller));
+                ivIdentity.setImageResource(R.mipmap.img_teller);
                 break;
             case WITCH:
                 tvRoleType.setText(tvRoleType.getText() + getString(R.string.string_witch));
+                ivIdentity.setImageResource(R.mipmap.img_witch);
                 break;
             case WOLF:
                 tvRoleType.setText(tvRoleType.getText() + getString(R.string.string_wolf));
+                ivIdentity.setImageResource(R.mipmap.img_wolf);
                 break;
             case HUNTER:
                 tvRoleType.setText(tvRoleType.getText() + getString(R.string.string_hunter));
+                ivIdentity.setImageResource(R.mipmap.img_hunter);
                 break;
             case IDIOT:
                 tvRoleType.setText(tvRoleType.getText() + getString(R.string.string_idiot));
+                ivIdentity.setImageResource(R.mipmap.img_idiot);
                 break;
             case GUARD:
                 tvRoleType.setText(tvRoleType.getText() + getString(R.string.string_guard));
+                ivIdentity.setImageResource(R.mipmap.img_guard);
                 break;
             case VILLAGER:
                 tvRoleType.setText(tvRoleType.getText() + getString(R.string.string_villager));
+                ivIdentity.setImageResource(R.mipmap.img_villager);
                 break;
         }
     }

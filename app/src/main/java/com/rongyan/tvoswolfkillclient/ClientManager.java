@@ -22,6 +22,7 @@ import com.rongyan.tvoswolfkillclient.event_message.ReplaceFgmEvent;
 import com.rongyan.tvoswolfkillclient.event_message.ShowButton;
 import com.rongyan.tvoswolfkillclient.event_message.ShowPopupEvent;
 import com.rongyan.tvoswolfkillclient.fragment.FragmentTagHolder;
+import com.rongyan.tvoswolfkillclient.mina.ClientHandler;
 import com.rongyant.commonlib.util.LogUtils;
 
 import java.util.Arrays;
@@ -62,6 +63,18 @@ public class ClientManager {
         return INSTANCE;
     }
 
+    public static void release() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                ClientHandler.godSession.closeNow();
+            }
+        }).start();
+
+        isChampaign = false;
+        INSTANCE = null;
+    }
+
     @Subscribe(threadMode = ThreadMode.BackgroundThread)
     public void onMessageEvent(JesusEventEntity eventEntity) {
         LogUtils.e(TAG, "onMessageEvent", "receive");
@@ -89,7 +102,6 @@ public class ClientManager {
                 && !(UserHolder.userEntity.getState() instanceof PoisonDeadState)) {
             LogUtils.e(TAG, "onMessageEvent", "event bus received message:" + eventEntity.toString());
             switch (eventEntity.getEvent()) {
-
                 case CLOSE_EYES:
                     EventBus.getDefault().postSticky(new ShowButton(ShowButton.DISMISS_SELF_DESTRUCTION));
                     userEntity.setState(new CloseEyesState());
@@ -203,6 +215,8 @@ public class ClientManager {
                     break;
                 case GAME_OVER:
                     EventBus.getDefault().post(new ReplaceFgmEvent("GAME_OVER"));
+                    release();
+                    ClientManager.getInstance(); //创建新的ClintManager用于下一次游戏。
                     break;
                 case GIVE_CHIEF:
                     if (UserHolder.userEntity.getUserId() == eventEntity.getTargetId()[0]) {

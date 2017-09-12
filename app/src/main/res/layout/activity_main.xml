@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
+    android:background="@mipmap/img_phone_background"
     tools:context="com.rongyan.tvoswolfkillclient.MainActivity">
 
     <ImageView
@@ -19,6 +20,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="服务器Ip"
+        android:textColor="@color/colorOrangeRed"
+        android:textColorHint="@color/colorWhite"
         android:layout_below="@+id/img_main_head_img"/>
 
 
@@ -26,7 +29,9 @@
         android:id="@+id/btn_connect"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="CONNECT"
+        android:text="连接"
+        android:textColor="@color/colorOrangeRed"
+        android:background="@drawable/bg_black_8dp_corner"
         android:layout_below="@+id/et_server_ip"/>
 
 

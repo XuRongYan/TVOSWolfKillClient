@@ -4,13 +4,20 @@
     android:layout_height="match_parent"
     android:background="@color/colorTransparentGray">
 
-    <TextView
-        android:id="@+id/tv_popup_get_shoot_state"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textSize="22sp"
-        android:textColor="@color/colorWhite"
-        android:text="可以开枪"
-        android:gravity="center"/>
+        android:orientation="vertical"
+        android:background="@mipmap/img_background">
+        <TextView
+            android:id="@+id/tv_popup_get_shoot_state"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="22sp"
+            android:text="可以开枪"
+            android:gravity="center"/>
+    </LinearLayout>
+
+
 
 </RelativeLayout>

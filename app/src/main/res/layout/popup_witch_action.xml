@@ -1,38 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorTransparentGray"
+    android:orientation="vertical"
     android:padding="16dp">
 
-    <TextView
-        android:id="@+id/tv_popup_witch"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:textColor="@color/colorWhite"
-        android:textSize="22sp"
-        android:text="今晚0号玩家被杀，请选择您的行动"/>
+        android:layout_height="match_parent"
+        android:background="@mipmap/img_background"
+        android:orientation="vertical"
+        android:paddingBottom="64dp"
+        android:paddingEnd="64dp"
+        android:paddingStart="64dp"
+        android:paddingTop="100dp">
 
-    <Button
-        android:id="@+id/btn_popup_witch_save"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="救"
-        android:textSize="22sp"/>
+        <TextView
+            android:id="@+id/tv_popup_witch"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="今晚0号玩家被杀，请选择您的行动"
+            android:textSize="22sp" />
 
-    <Button
-        android:id="@+id/btn_popup_witch_poison"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="22sp"
-        android:text="毒"/>
+        <Button
+            android:id="@+id/btn_popup_witch_save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorTransparent"
+            android:text="救"
+            android:textSize="22sp" />
 
-    <Button
-        android:id="@+id/btn_popup_witch_do_nothing"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="什么也不做"
-        android:textSize="22sp"/>
+        <Button
+            android:id="@+id/btn_popup_witch_poison"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorTransparent"
+            android:text="毒"
+            android:textSize="22sp" />
+
+        <Button
+            android:id="@+id/btn_popup_witch_do_nothing"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorTransparent"
+            android:text="什么也不做"
+            android:textSize="22sp" />
+
+
+    </LinearLayout>
+
 
 </LinearLayout>

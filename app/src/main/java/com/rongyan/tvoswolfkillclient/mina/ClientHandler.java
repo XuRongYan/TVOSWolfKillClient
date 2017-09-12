@@ -67,6 +67,7 @@ public class ClientHandler extends IoHandlerAdapter {
             session.write(new ConfirmMessage(UserHolder.userEntity.getUserId(),
                     ConfirmMessage.CONFIRM));
         }
+        //服务端在开启新游戏的时候直接发送UserEntity就可以了
         if (message instanceof UserEntity) {
             UserHolder.userEntity = (UserEntity) message;
             EventBus.getDefault().post(new GoActivityEvent(CardActivity.class));

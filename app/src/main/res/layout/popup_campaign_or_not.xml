@@ -5,32 +5,45 @@
     android:background="@color/colorTransparentGray"
     android:padding="16dp">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:text="现在开始警长竞选，您是否要上警？"
-        android:textColor="@color/colorWhite"
-        android:textSize="22sp"
-        />
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <Button
-            android:id="@+id/btn_popup_campaign"
-            android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingTop="100dp"
+        android:paddingStart="64dp"
+        android:paddingBottom="64dp"
+        android:paddingEnd="64dp"
+        android:background="@mipmap/img_background">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="上警"/>
+            android:text="现在开始警长竞选，您是否要上警？"
+            android:textSize="22sp"
+            />
 
-        <Button
-            android:id="@+id/btn_popup_not_campaign"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="不上警"/>
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/btn_popup_campaign"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:background="@color/colorTransparent"
+                android:text="上警"/>
+
+            <Button
+                android:id="@+id/btn_popup_not_campaign"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:background="@color/colorTransparent"
+                android:text="不上警"/>
+        </LinearLayout>
     </LinearLayout>
+
+
 
 </LinearLayout>

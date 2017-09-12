@@ -5,13 +5,19 @@
     android:layout_height="match_parent"
     android:background="@color/colorTransparentGray">
 
-    <TextView
-        android:id="@+id/tv_popup_show_chief"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:textSize="22sp"
-        android:textColor="@color/colorWhite"
-        android:text="您当选了警长"/>
+        android:background="@mipmap/img_background">
+        <TextView
+            android:id="@+id/tv_popup_show_chief"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="22sp"
+            android:text="您当选了警长"/>
+    </LinearLayout>
+
+
 
 </LinearLayout>

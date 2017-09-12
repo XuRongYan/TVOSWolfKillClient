@@ -57,6 +57,7 @@ public class CardActivity extends BaseActivity {
     private PopupWindowUtil showChooseSequence;
     private PopupWindowUtil showDead;
     private PopupWindowUtil showGiveChief;
+    private PopupWindowUtil showGameOver;
 
     @Override
     protected int getContentView() {
@@ -96,8 +97,7 @@ public class CardActivity extends BaseActivity {
         LogUtils.e(TAG, "onMessageEvent ReplaceFgmEvent", "go " + event.getFgmTag());
         dismissAllPopup();
         if (event.getFgmTag().equals("GAME_OVER")) {
-            BaseAppManager.getInstance().clearAll();
-            goActivity(MainActivity.class);
+            showGameOver();
         } else {
             replaceFgm(event.getFgmTag(), event.getIds());
         }
@@ -170,6 +170,29 @@ public class CardActivity extends BaseActivity {
                 showGiveChief(event.getTargetId());
                 break;
         }
+    }
+
+    private void showGameOver() {
+        showGameOver = new PopupWindowUtil.Builder(this)
+                .setView(R.layout.popup_game_over)
+                .setLayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+                .setOnClickListener(R.id.btn_popup_game_over_exit_game, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showGameOver.dismiss();
+                        BaseAppManager.getInstance().clearAll();
+                        System.exit(0);
+                    }
+                })
+                .setOnClickListener(R.id.btn_popup_game_over_start_game, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showGameOver.dismiss();
+                        BaseAppManager.getInstance().clearAll();
+                        goActivity(MainActivity.class);
+                    }
+                })
+                .build();
     }
 
     private void showGiveChief(int... ids) {

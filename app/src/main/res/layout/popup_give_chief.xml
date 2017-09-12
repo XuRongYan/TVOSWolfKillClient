@@ -1,38 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorTransparentGray"
+    android:orientation="vertical"
     android:padding="16dp">
-
-    <TextView
-        android:id="@+id/tv_popup_give_chief"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:textColor="@color/colorWhite"
-        android:textSize="22sp"
-        android:text="是否移交警徽？"
-        />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:background="@mipmap/img_background"
+        android:orientation="vertical"
+        android:paddingBottom="64dp"
+        android:paddingEnd="64dp"
+        android:paddingStart="64dp"
+        android:paddingTop="100dp">
 
-        <Button
-            android:id="@+id/btn_popup_give_chief_yes"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+        <TextView
+            android:id="@+id/tv_popup_give_chief"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
-            android:text="是"/>
+            android:text="是否移交警徽？"
+            android:textSize="22sp" />
 
-        <Button
-            android:id="@+id/btn_popup_give_chief_no"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="否"/>
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_popup_give_chief_yes"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/colorTransparent"
+                android:text="是" />
+
+            <Button
+                android:id="@+id/btn_popup_give_chief_no"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/colorTransparent"
+                android:text="否" />
+        </LinearLayout>
+
     </LinearLayout>
+
 
 </LinearLayout>
