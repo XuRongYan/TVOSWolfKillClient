@@ -6,8 +6,8 @@ import android.view.View;
 
 import com.rongyan.tvoswolfkillclient.R;
 import com.rongyan.tvoswolfkillclient.entity.VoteEntity;
-import com.rongyant.commonlib.CommonAdapter.CommonAdapter;
-import com.rongyant.commonlib.CommonAdapter.ViewHolder;
+import com.rongyant.commonlib.commonadapter.CommonAdapter;
+import com.rongyant.commonlib.commonadapter.ViewHolder;
 import com.rongyant.commonlib.util.LogUtils;
 
 import java.util.List;
@@ -22,10 +22,12 @@ public class ChoosePlayerAdapter extends CommonAdapter<VoteEntity> {
 
     public ChoosePlayerAdapter(Context context, List<VoteEntity> list) {
         super(context, list);
+        //list.get(0).setChecked(true);
     }
 
     public ChoosePlayerAdapter(Context context, List<VoteEntity> list, RecyclerView recyclerView) {
         super(context, list, recyclerView);
+        //list.get(0).setChecked(true);
     }
 
     @Override
@@ -36,10 +38,11 @@ public class ChoosePlayerAdapter extends CommonAdapter<VoteEntity> {
     @Override
     public void onBindVH(final ViewHolder viewHolder, final VoteEntity item, int position) {
         viewHolder.setText(R.id.tv_item_choose_player, (item.getId() + 1) + "");
+
         if (item.isChecked()) {
-            viewHolder.setBackgroundRes(R.id.tv_item_choose_player, R.drawable.bg_accent_stroke);
+            viewHolder.setBackgroundRes(R.id.ll_item_choose_player, R.drawable.bg_accent_stroke);
         } else {
-            viewHolder.setBackgroundRes(R.id.tv_item_choose_player, R.color.colorWhite);
+            viewHolder.setBackgroundRes(R.id.ll_item_choose_player, R.color.colorTransparent);
         }
         viewHolder.setOnClickListener(R.id.tv_item_choose_player, new View.OnClickListener() {
             @Override

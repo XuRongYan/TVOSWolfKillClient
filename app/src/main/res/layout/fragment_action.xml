@@ -24,7 +24,8 @@
             android:id="@+id/btn_submit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="submit"/>
+            android:background="@color/colorTransparent"
+            android:text="提交"/>
 
 
     </LinearLayout>

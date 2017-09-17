@@ -1,26 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="64dp"
-    android:layout_height="64dp"
-    android:background="@mipmap/img_wolf"
-
-    >
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorTransparentGray">
+    android:id="@+id/ll_item_choose_player"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <FrameLayout
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_margin="4dp">
+        <ImageView
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:src="@mipmap/img_wolf"/>
         <TextView
             android:id="@+id/tv_item_choose_player"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textSize="22sp"
-            android:textColor="@color/colorWhite"
-            android:text="66"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
             android:gravity="center"
-            />
-    </LinearLayout>
-
-
-
+            android:layout_gravity="center"
+            android:text="66"
+            android:textColor="@color/colorWhite"
+            android:textSize="22sp" />
+    </FrameLayout>
 </LinearLayout>

@@ -45,6 +45,7 @@ public class ClientManager {
     public static final int DOUBLE_DEATH = 0X1; //双死，警左警右
     public static boolean isChampaign = false; //是否参与竞选
     private boolean canWitchSaveHerself = true;
+    public boolean isChief = false;
     private boolean idiotVoted = false;
 
     private ClientManager() {
@@ -57,6 +58,7 @@ public class ClientManager {
             synchronized (ClientManager.class) {
                 if (INSTANCE == null) {
                     INSTANCE = new ClientManager();
+
                 }
             }
         }
@@ -86,7 +88,7 @@ public class ClientManager {
             }
         }
         if (eventEntity.getEvent() == JesusEvent.GIVE_CHIEF) {
-            if (UserHolder.userEntity.getUserId() == eventEntity.getTargetId()[0]) {
+            if (isChief) {
                 userEntity.setState(new GiveChiefState());
 
                 EventBus.getDefault().post(new ShowPopupEvent(ShowPopupEvent.GIVE_CHIEF, eventEntity.getTargetId()));
@@ -161,7 +163,6 @@ public class ClientManager {
                     userEntity.setState(new OpenEyesState());
                     break;
                 case GOOD_OR_NOT:
-
                     int[] targetId = eventEntity.getTargetId();
                     EventBus.getDefault().post(new ShowPopupEvent(targetId[0] == GOOD ?
                             ShowPopupEvent.SHOW_GOOD : ShowPopupEvent.SHOW_BAD));
@@ -200,6 +201,7 @@ public class ClientManager {
                 case YOU_ARE_CHIEF:
                     int[] targetId1 = eventEntity.getTargetId();
                     if (targetId1[0] == userEntity.getUserId()) {
+                        isChief = true;
                         EventBus.getDefault().post(new ShowPopupEvent(ShowPopupEvent.SHOW_CHIEF, eventEntity.getTargetId()));
                     }
                     break;
@@ -219,10 +221,11 @@ public class ClientManager {
                     ClientManager.getInstance(); //创建新的ClintManager用于下一次游戏。
                     break;
                 case GIVE_CHIEF:
-                    if (UserHolder.userEntity.getUserId() == eventEntity.getTargetId()[0]) {
+                    if (isChief) {
                         userEntity.setState(new GiveChiefState());
                         EventBus.getDefault().post(new ShowPopupEvent(ShowPopupEvent.GIVE_CHIEF, eventEntity.getTargetId()));
                     }
+                    isChief = false;
                     break;
             }
         } else if (UserHolder.userEntity.getState() instanceof DeadState && idiotVoted == true && UserHolder.userEntity.getRoleType() == RoleType.IDIOT) {

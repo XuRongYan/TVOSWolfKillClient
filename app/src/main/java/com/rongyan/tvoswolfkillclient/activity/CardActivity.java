@@ -22,7 +22,7 @@ import com.rongyan.tvoswolfkillclient.fragment.ActionFragment;
 import com.rongyan.tvoswolfkillclient.fragment.CardFragment;
 import com.rongyan.tvoswolfkillclient.fragment.DeadFragment;
 import com.rongyan.tvoswolfkillclient.fragment.FragmentTagHolder;
-import com.rongyan.tvoswolfkillclient.popupwindowHelper.PopupWindowUtil;
+import com.rongyan.tvoswolfkillclient.popupwindowhelper.PopupWindowUtil;
 import com.rongyant.commonlib.util.ActivityUtils;
 import com.rongyant.commonlib.util.LogUtils;
 import com.rongyant.commonlib.util.ToastUtils;
@@ -122,9 +122,9 @@ public class CardActivity extends BaseActivity {
         if (showShoot != null) {
             showShoot.dismiss();
         }
-        if (showGoodPopupHelper != null) {
-            showGoodPopupHelper.dismiss();
-        }
+//        if (showGoodPopupHelper != null) {
+//            showGoodPopupHelper.dismiss();
+//        }
         if (showChampaign != null) {
             showChampaign.dismiss();
         }
@@ -344,7 +344,7 @@ public class CardActivity extends BaseActivity {
                 .setView(R.layout.popup_good_or_not)
                 .setLayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
                 .setText(R.id.tv_popup_good_or_not, "您验到的是：好人")
-                .setOnClickListener(R.id.img_ok, new View.OnClickListener() {
+                .setOnClickListener(R.id.rl_popup_show_good, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         showGoodPopupHelper.dismiss();
@@ -359,7 +359,7 @@ public class CardActivity extends BaseActivity {
                 .setView(R.layout.popup_good_or_not)
                 .setLayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
                 .setText(R.id.tv_popup_good_or_not, "您验到的是：坏人")
-                .setOnClickListener(R.id.img_ok, new View.OnClickListener() {
+                .setOnClickListener(R.id.rl_popup_show_good, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         showGoodPopupHelper.dismiss();
@@ -374,7 +374,7 @@ public class CardActivity extends BaseActivity {
         showWitchPop = new PopupWindowUtil.Builder(this)
                 .setView(R.layout.popup_witch_action)
                 .setLayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
-                .setText(R.id.tv_popup_witch, targetId[0] != -1 ? "今晚" + targetId[0] + "号玩家被杀，请选择您的行动" : "今晚是平安夜")
+                .setText(R.id.tv_popup_witch, targetId[0] != -1 ? "今晚" + (targetId[0] + 1) + "号玩家被杀，请选择您的行动" : "今晚是平安夜")
                 .setClickable(R.id.btn_popup_witch_save, (targetId[1] & 0x01) == 0x01)
                 .setClickable(R.id.btn_popup_witch_poison, (targetId[1] & 0x10) == 0x10)
                 .setVisible(R.id.btn_popup_witch_do_nothing, targetId[0] != -1)

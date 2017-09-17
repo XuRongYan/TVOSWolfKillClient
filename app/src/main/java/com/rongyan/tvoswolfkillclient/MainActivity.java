@@ -95,7 +95,7 @@ public class MainActivity extends BaseActivity {
                 finish();
             }
         });
-        editText.setText("192.168.2.218");
+        editText.setText("192.168.2.156");
 
     }
 
@@ -106,7 +106,6 @@ public class MainActivity extends BaseActivity {
                 binder.setServerIp(editText.getText().toString());
                 break;
         }
-
     }
 
     @Subscribe(threadMode = ThreadMode.MainThread)

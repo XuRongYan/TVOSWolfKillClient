@@ -30,12 +30,14 @@
                 android:id="@+id/btn_popup_choose_speech_sequence_clockwise"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:background="@color/colorTransparent"
                 android:layout_weight="1" />
 
             <Button
                 android:id="@+id/btn_popup_choose_speech_sequence_anti_clockwise"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:background="@color/colorTransparent"
                 android:layout_weight="1" />
         </LinearLayout>
     </LinearLayout>

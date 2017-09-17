@@ -90,7 +90,7 @@ public class ActionFragment extends BaseFragment {
         choosePlayerAdapter = new ChoosePlayerAdapter(getActivity(),
                 voteList,
                 recyclerView);
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 5));
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         recyclerView.setAdapter(choosePlayerAdapter);
     }
 
@@ -114,7 +114,11 @@ public class ActionFragment extends BaseFragment {
     public void setList(ArrayList<Integer> list) {
         List<VoteEntity> voteList = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
-            voteList.add(new VoteEntity(list.get(i), false));
+            if (i == 0) {
+                voteList.add(new VoteEntity(list.get(i), true));
+            } else {
+                voteList.add(new VoteEntity(list.get(i), false));
+            }
         }
         choosePlayerAdapter.removeAll();
         choosePlayerAdapter.addListAtStart(voteList);

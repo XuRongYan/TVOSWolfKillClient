@@ -17,27 +17,25 @@ import de.greenrobot.event.EventBus;
 public class LastWordsState implements BaseJesusState {
     private static final String TAG = "LastWordsState";
     private int id = -1;
-
     @Override
     public void send(int... id) {
         Log.e(TAG, "遗言阶段");
         EventBus.getDefault().post(new ToastMessage("遗言阶段"));
-
         EventBus.getDefault().post(new JesusEventEntity(RoleType.ANY, JesusEvent.SPEECH, this.id));
-
-
     }
 
     @Override
     public BaseJesusState next() {
-        return new NightState();
+        return null;
     }
 
     public LastWordsState(int id) {
         this.id = id;
+        Log.e(TAG, "进入遗言状态，初始id:" + id);
     }
 
     public LastWordsState() {
+        Log.e(TAG, "进入遗言状态，没有初始id");
     }
 
     public int getId() {

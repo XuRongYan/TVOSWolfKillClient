@@ -26,6 +26,6 @@ public class VottingState implements BaseJesusState {
 
     @Override
     public BaseJesusState next() {
-        return new LastWordsState();
+        return null;
     }
 }

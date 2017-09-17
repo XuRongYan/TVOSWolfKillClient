@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TVOSWolfKillClient</string>
+    <string name="app_name">狼人杀移动端</string>
     <string name="string_your_role_is">您的身份是：</string>
     <string name="string_teller">预言家</string>
     <string name="string_witch">女巫</string>
